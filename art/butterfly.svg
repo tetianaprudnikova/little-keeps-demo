@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <title>Cut-paper butterfly on sage construction paper</title>
+  <defs>
+    <linearGradient id="paper" x2=".8" y2="1">
+      <stop stop-color="#d6ddbd"/>
+      <stop offset="1" stop-color="#aebf9d"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".54" numOctaves="3" seed="29"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="1.7" dy="4.6" stdDeviation="3.1" flood-color="#534033" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#paper)"/>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".26" style="mix-blend-mode:multiply"/>
+  <g transform="translate(1 -4) rotate(-7 401 300)">
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M138 198l10 3-2-10m-3 15 1 11m-6-4 10-5M602 143l3 18m-12-7 20-4m48 100 8 11m-9-1 13-7M159 428l3 17m-9-6 16-3m485-21 11 13m-13-1 14-8" stroke="#f2eed0" stroke-width="4.7" opacity=".79"/>
+      <path d="M113 309q-12 17-25 5m622 67q12 11 19 0m-182 105q-7 19-16 16m-321-28q-10 7-17-5m114-328q-11-17-20-15" stroke="#7e9b71" stroke-width="4.8" opacity=".79"/>
+      <path d="M129 249l2 3m-34 117 3 1m89 104 2 3m477-313 2 4m44 139 3 3m-153 181 3 1m-53 31 4-3m-193-18 4 3" stroke="#f5e6bc" stroke-width="7" opacity=".75"/>
+    </g>
+    <g filter="url(#shadow)">
+      <path d="M399 323 371 286 343 244 313 203 276 165 240 144 202 137 173 150 154 176 150 203 159 237 176 272 203 299 226 315 251 323 281 332 314 338 347 336 378 334Z" fill="#e8ac46"/>
+      <path d="M389 317 370 279 342 239 315 204 281 171 257 154 228 144 197 148 177 164 170 190 177 212 186 237 204 263 229 286 253 300 281 310 314 321 345 324Z" fill="#f4c65e"/>
+      <path d="M399 322 427 279 456 236 484 205 517 177 550 158 586 151 614 157 633 170 647 193 650 213 643 235 625 261 604 286 579 306 551 320 516 329 483 331 450 332 425 331Z" fill="#dc825c"/>
+      <path d="M414 317 434 282 460 242 487 214 522 185 548 171 578 166 605 173 623 187 630 206 625 226 612 245 597 267 574 283 542 301 516 309 490 317 455 318Z" fill="#eda580"/>
+      <path d="M403 330 374 324 344 318 313 312 286 314 254 323 226 337 204 357 192 380 189 407 198 431 219 448 243 455 276 452 310 440 334 426 360 400 382 375Z" fill="#d88061"/>
+      <path d="M394 337 360 334 326 326 295 327 270 331 245 341 223 358 210 376 209 398 219 419 238 429 259 432 285 426 307 417 334 397 354 377 375 352Z" fill="#eca789"/>
+      <path d="M404 328 433 323 461 317 489 316 517 320 546 330 573 344 591 362 600 382 601 406 591 427 570 444 545 452 515 449 482 439 456 423 434 402 419 377Z" fill="#e9aa41"/>
+      <path d="M419 334 449 329 478 325 511 331 539 342 561 355 577 371 582 389 574 408 558 422 537 429 515 425 488 416 466 402 450 383 433 359Z" fill="#f2c569"/>
+      <path d="M269 190l27 15 26 32 14 31-35 3-33-12-26-28-4-24 11-13Z" fill="#f6dfa2"/>
+      <path d="M528 207l23-12 23 1 13 17-8 28-19 16-29 9-29-1 9-31Z" fill="#f5d098"/>
+      <path d="M271 356l25-9 31-1 12 12-16 23-23 17-27 5-21-8-2-16Z" fill="#f6d6a2"/>
+      <path d="M459 353l26-8 27 4 23 13 14 17-8 18-17 8-21-3-20-12-14-17Z" fill="#fae4a7"/>
+      <path d="M208 176l13-3 16 4 7 11-5 10-12 6-13-2-12-8-3-10Z" fill="#f5e9c7"/>
+      <path d="M592 218l12-3 10 6-3 14-11 10-11-1-5-8Z" fill="#f7e5be"/>
+      <path d="M215 397l11-7 11 2 8 9-3 11-14 7-12-5Z" fill="#f3cfad"/>
+      <path d="M555 382l11-6 9 6-2 12-10 7-11-2Z" fill="#f7dc94"/>
+    </g>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M210 215q13 41 48 60 36 19 84 24m-66-72q4 10 17 13m-59-13-4 9m26 18 4 9m55 20 11 6" stroke="#c98638" stroke-width="4.5" opacity=".69"/>
+      <path d="M469 274q34-66 101-81m-77 97q65-6 102-42m-65-27 12-7m24 17 8-7m-61 39 9-6" stroke="#be694b" stroke-width="4.4" opacity=".62"/>
+      <path d="M224 382q24-27 64-34m-37 71q34-1 59-23m-51-20 10-2m26-9 10-1" stroke="#ba644c" stroke-width="4.2" opacity=".65"/>
+      <path d="M475 339q34-2 61 16m-75 17q26 32 53 39m-24-42 9 5m21 5 9 5" stroke="#be803c" stroke-width="4.2" opacity=".64"/>
+      <path d="M398 266q-9-36-27-48-14-12-27 2m61 47q14-41 32-53 18-9 26 9" stroke="#55463b" stroke-width="5.5" opacity=".85"/>
+    </g>
+    <g filter="url(#shadow)">
+      <path d="M401 254l11 8 6 20-1 27-3 29-2 28-8 25-6 8-9-9-5-24 2-28-1-29 2-27 6-20Z" fill="#55463d"/>
+      <path d="M403 274q-5 44-3 76-2 19-6 31" fill="none" stroke="#82715a" stroke-width="4" stroke-linecap="round" opacity=".7"/>
+    </g>
+  </g>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".15" style="mix-blend-mode:soft-light" pointer-events="none"/>
+</svg>
