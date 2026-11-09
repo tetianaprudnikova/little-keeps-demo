@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <title>Forest painted in crayon colors on blue paper</title>
+  <defs>
+    <linearGradient id="paper" x2=".9" y2="1">
+      <stop stop-color="#b9d7e2"/>
+      <stop offset="1" stop-color="#96baca"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".48" numOctaves="3" seed="4"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency=".21" numOctaves="2" seed="23" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#paper)"/>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".25" style="mix-blend-mode:multiply"/>
+  <g stroke-linecap="round" stroke-linejoin="round" filter="url(#rough)">
+    <g fill="none" stroke="#edf0d6" stroke-width="8" opacity=".81">
+      <path d="M132 138q10-12 25-12 11-14 32-10 17-3 30 7 20 1 32 12-22 7-66 6Z"/>
+      <path d="M342 134q10-11 23-11 12-15 34-13 18-4 31 6 17 0 32 11-22 9-67 12Z"/>
+    </g>
+    <path d="M544 154q-10-20 7-40 10-10 31-10 26-2 36 19 11 24-10 42-19 13-40 8-20-3-24-19Z" fill="#edc667" opacity=".94"/>
+    <path d="M561 160q-16-13-5-33 14-19 36-14m-30 47q20 15 41-4m-64-31-14-8m39-24-5-12m40 12 11-13m18 37 16-5m-12 36 15 5m-32 20 8 12" fill="none" stroke="#f2d27d" stroke-width="7"/>
+    <path d="M-40 493Q121 394 247 435q117 35 197 17 119-43 226-26 62 10 177 69l-2 130H-40Z" fill="#92b18f"/>
+    <path d="M-30 528q103-22 185-31 117-13 222 11 64 10 140-12 158-50 312 32l-1 94H-32Z" fill="#80a278"/>
+    <path d="M-12 539q123-40 252-30 108 8 172 32 69 16 149-14 115-32 243 5m-814 42q120-31 237-27m285 28q112-20 288 5" fill="none" stroke="#aec393" stroke-width="10" opacity=".69"/>
+    <path d="M115 472q4-33 6-69m107 87 7-76m156 84q-8-52-6-95m171 66-5-79m119 101-6-71" fill="none" stroke="#855e4a" stroke-width="19"/>
+    <path d="M117 467q6-24 5-54m107 69 4-55m157 63-5-58m173 30-5-48m119 70-6-52" fill="none" stroke="#b48159" stroke-width="5"/>
+    <path d="M123 243q-26 60-55 82l26-2q-21 35-50 60l39-4-31 34q43 8 132-3l-27-29 37 1-41-49 24 1q-32-42-54-91Z" fill="#578673"/>
+    <path d="M234 179q-17 53-50 80l34 0-54 55 36-4-46 59 39-7q-14 31-49 58 62 13 178-1l-47-54 41 8-51-60 31 1-44-55 27 2q-26-41-45-82Z" fill="#3b7968"/>
+    <path d="M385 257q-24 44-54 67l26 1-46 45 33-1-33 40q72 11 140 3l-34-36 33 1-43-49 28 1q-28-32-50-72Z" fill="#5a916e"/>
+    <path d="M550 183q-19 51-53 84l33 0-53 53 41-1-54 47 40-4-42 46q52 12 162 1l-39-43 38 2-47-47 37 3-50-54 29 1q-26-39-42-88Z" fill="#477d60"/>
+    <path d="M669 247q-28 53-52 71l22 1-44 43 31 1-32 46q64 12 137 0l-32-38 31-2-41-44 22 1q-26-37-42-79Z" fill="#68986e"/>
+    <g fill="none" stroke-width="7">
+      <path d="M121 279l-25 34m24-15 29 19m-33 18-36 28m50-28 34 24m-52 18-29 19m48-18 30 14m220-112-23 26m18-10 23 21m-22 8-38 32m46-30 31 23m-40 13-38 22m51-16 31 19m249-117-17 29m20-15 21 21m-35 9-25 27m41-20 25 24m-44 9-30 31m49-24 25 19" stroke="#8ab37f" opacity=".89"/>
+      <path d="M236 214l-24 32m24-17 29 30m-35 9-31 27m39-22 39 30m-50 1-38 37m51-29 35 30m-48-4-51 46m68-35 46 37m257-177-28 38m32-24 21 28m-31 10-41 33m51-27 28 28m-40 12-44 33m58-26 36 26m-50 4-49 33m58-24 35 21" stroke="#72a383" opacity=".88"/>
+      <path d="M110 514l-9-12m19 10 5-15m23 14 7-7m154 34-10-15m18 13 6-14m127 2 4-17m12 14 9-12m166 27 5-12m13 12 11-12" stroke="#587f66" opacity=".78"/>
+      <path d="M184 538l2-3m11 7 2-3m151-55 2-4m117 91 4-3m88-59 6-4m123 29 3 2m-555 12 5 4m445 28 3 1" stroke="#edcc76"/>
+    </g>
+  </g>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".28" style="mix-blend-mode:soft-light"/>
+</svg>
