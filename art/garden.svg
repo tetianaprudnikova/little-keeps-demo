@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <title>Hand-cut paper flowers growing on pink paper</title>
+  <defs>
+    <linearGradient id="paper" x2=".85" y2="1">
+      <stop stop-color="#f3d8d1"/>
+      <stop offset="1" stop-color="#e5bcbb"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".57" numOctaves="3" seed="33"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="160%">
+      <feDropShadow dx="1.4" dy="4.1" stdDeviation="2.6" flood-color="#724f55" flood-opacity=".24"/>
+    </filter>
+  </defs>
+  <rect width="800" height="600" fill="url(#paper)"/>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".22" style="mix-blend-mode:multiply"/>
+  <g filter="url(#shadow)">
+    <path d="M266 485 253 392 240 296 235 248 250 242 259 298 270 388 284 489Z" fill="#608a72"/>
+    <path d="M396 491 394 414 399 326 409 225 427 224 415 332 410 415 411 492Z" fill="#658b6c"/>
+    <path d="M510 488 532 394 551 317 566 268 582 269 569 322 549 396 526 492Z" fill="#728f70"/>
+    <path d="M257 395 235 371 214 351 185 348 154 357 170 384 194 403 222 408Z" fill="#96ad78"/>
+    <path d="M266 432 283 401 311 381 349 375 344 408 324 434 299 445Z" fill="#799c70"/>
+    <path d="M400 375 379 351 354 336 324 337 306 347 320 371 340 387 372 391Z" fill="#9cb67d"/>
+    <path d="M408 425 428 395 450 373 483 364 500 367 487 397 466 420 440 434Z" fill="#89a578"/>
+    <path d="M543 387 526 359 503 339 475 333 460 338 471 365 496 385 517 389Z" fill="#93ad7b"/>
+    <path d="M544 418 566 395 592 381 629 380 648 391 625 412 595 429 573 431Z" fill="#99ab72"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M230 281 206 289 186 282 174 268 178 248 193 235 169 224 161 205 174 187 196 185 212 194 214 169 230 153 251 154 263 170 263 192 286 184 307 191 314 210 305 228 283 238 304 252 305 274 291 288 271 285 254 269 244 285Z" fill="#eb916f"/>
+    <path d="M208 222 222 208 246 205 266 215 275 231 267 251 249 263 227 256 211 245Z" fill="#f6cc73"/>
+    <path d="M403 241 382 232 377 212 359 221 336 213 326 194 331 174 355 163 365 164 351 146 352 124 372 110 391 115 406 133 414 109 434 99 455 107 462 127 456 150 481 147 500 160 503 181 489 197 462 202 473 222 463 241 441 247 421 232Z" fill="#e2b550"/>
+    <path d="M382 164 400 150 425 149 449 160 454 184 440 205 418 212 393 201 382 186Z" fill="#f2df9f"/>
+    <path d="M554 303 527 307 511 293 510 275 527 255 506 245 503 227 513 211 531 210 552 220 553 198 570 182 591 183 606 196 603 219 622 214 642 223 647 242 633 259 614 263 628 280 619 298 596 304 577 291 568 305Z" fill="#a697bc"/>
+    <path d="M546 241 559 228 578 224 598 232 606 250 597 268 577 276 556 271 546 256Z" fill="#f0cf99"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".62">
+    <path d="M243 213l-1 8m-15 7 4 4m28 1 5 2m-28 10 2 4m16-28 2 4m-59-15 10 4m64 51 11 7m-48-98 3 11" stroke="#b87648" stroke-width="4.6"/>
+    <path d="M398 173l5 2m26-11 3 3m2 24 6-3m-25 9 2 5m-10-17 4-1m-33-41 9 9m86 23 11-1m-39 53 5 5" stroke="#b98a42" stroke-width="4.3"/>
+    <path d="M558 246l3 3m13-11 3 2m11 17 5-1m-23 10 2 2m8-16 2 2m24 21 8 6m-38-83 2 8m-58 32 9 3" stroke="#926d8e" stroke-width="4.4"/>
+    <path d="M166 365q43 7 71 23m43 44q19-28 52-40m-11-40q42 6 62 23m39 49q29-26 62-42m-12-36q33 8 56 34m30 40q27-21 63-23" stroke="#547960" stroke-width="4"/>
+    <path d="M121 227l7 8m2-1 4-7m-8 65 3 4m559-58 5 13m-8-3 13-5m-16 96 2 4m-511-34 4 3m516 81 4-3m-375-96 4-1" stroke="#e9b668" stroke-width="5.5"/>
+  </g>
+  <g fill="none" stroke="#a36f71" stroke-linecap="round" opacity=".5">
+    <path d="M168 493q98-24 206-8 97 12 250-6m-442 23q59-11 116-7m243 10q41-1 91-11" stroke-width="4.4"/>
+    <path d="M151 469l7-11m9 11 7-9m176 41 4 5m168-25 3-9m121-8 4-7" stroke-width="4.1"/>
+  </g>
+  <rect width="800" height="600" filter="url(#grain)" opacity=".22" style="mix-blend-mode:soft-light"/>
+</svg>
