@@ -8,6 +8,7 @@ const children = [
   { id: 'amira', name: 'Amira', color: 'blue' },
   { id: 'finn', name: 'Finn', color: 'rose' },
 ];
+const familyChildren = children.filter(({ id }) => id === 'mia' || id === 'theo');
 const demoPhotos = ['garden', 'clay', 'forest', 'sunshine', 'butterfly'];
 const sampleArtwork = [
   {
@@ -32,14 +33,22 @@ const sampleArtwork = [
   },
 ];
 
-const art = sampleArtwork.map((piece) => ({ ...piece, childId: 'mia' }));
-let familyChild = children[0];
+const art = [
+  ...sampleArtwork.map((piece) => ({ ...piece, childId: 'mia' })),
+  {
+    id: 'garden', childId: 'theo', title: 'Ein Garten aus Papier', date: '2026-10-26',
+    note: 'Theo hat Blumen aus buntem Papier gebastelt.',
+    image: './art/garden.svg', alt: 'Drei bunte Blumen aus Papier',
+  },
+];
+const initialArtworkCount = art.length;
+let familyChild = familyChildren[0];
 const byId = (id) => document.getElementById(id);
 const parentTab = byId('parent-tab');
 const staffTab = byId('staff-tab');
 const albumDialog = byId('album-dialog');
 const detailDialog = byId('detail-dialog');
-const familyPicker = byId('family');
+const familySwitch = byId('family-children');
 const themeInput = byId('group-theme');
 const captureInput = byId('capture-input');
 const captureDialog = byId('capture-dialog');
@@ -160,9 +169,10 @@ function familyArtwork() {
 function renderGallery() {
   const pieces = familyArtwork();
   const name = familyChild.name;
-  familyPicker.value = familyChild.id;
+  for (const button of familySwitch.children) {
+    button.setAttribute('aria-pressed', String(button.dataset.childId === familyChild.id));
+  }
   byId('hero-child').textContent = name;
-  byId('hero-family').textContent = 'Familie von ' + name;
   byId('collection-title').textContent = name + 's kleine Galerie';
   byId('collection-count').textContent = pieces.length === 1
     ? '1 Kunstwerk · Große Strolche'
@@ -173,7 +183,7 @@ function renderGallery() {
   byId('make-album').disabled = !pieces.length;
 }
 
-function selectFamily(child) {
+function selectFamilyChild(child) {
   if (familyChild !== child) byId('album-name').value = child.name + 's kleine Kunstwerke';
   familyChild = child;
   renderGallery();
@@ -216,7 +226,7 @@ function beginCapture(child) {
   captureRequest = { child, theme, date: localDate() };
   reviewedPhoto = null;
   if (byId('sample-mode').checked) {
-    const sample = demoPhotos[(art.length - sampleArtwork.length) % demoPhotos.length];
+    const sample = demoPhotos[(art.length - initialArtworkCount) % demoPhotos.length];
     showPhotoPreview(captureRequest, './art/' + sample + '.svg');
     return;
   }
@@ -295,11 +305,11 @@ function savePhoto() {
     alt: 'Foto zum Thema ' + theme,
   });
   updateRoster();
-  selectFamily(child);
+  if (child.id === familyChild.id) renderGallery();
 
   byId('capture-kicker').textContent = 'Foto gespeichert';
   byId('capture-title').textContent = 'Für ' + child.name + ' gespeichert';
-  byId('capture-confirmation').textContent = 'Das Foto ist jetzt in der Familiengalerie von ' + child.name + ' zu sehen.';
+  byId('capture-confirmation').textContent = 'Das Foto wurde für ' + child.name + ' gespeichert.';
   byId('capture-review').hidden = true;
   byId('capture-saved').hidden = false;
   byId('take-another').focus();
@@ -374,9 +384,6 @@ async function submitAlbum(event) {
 parentTab.addEventListener('click', () => showView(false));
 staffTab.addEventListener('click', () => showView(true));
 byId('make-album').addEventListener('click', openAlbum);
-familyPicker.addEventListener('change', () => {
-  selectFamily(children.find((child) => child.id === familyPicker.value));
-});
 themeInput.addEventListener('input', () => setError('capture-error'));
 themeInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.isComposing) themeInput.blur();
@@ -399,10 +406,13 @@ for (const dialog of [albumDialog, detailDialog, captureDialog]) {
   dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
 }
 
-for (const child of children) {
-  const option = node('option', '', 'Familie von ' + child.name);
-  option.value = child.id;
-  familyPicker.append(option);
+for (const child of familyChildren) {
+  const button = node('button', 'family-child-button', child.name);
+  button.type = 'button';
+  button.dataset.childId = child.id;
+  button.setAttribute('aria-controls', 'gallery');
+  button.addEventListener('click', () => selectFamilyChild(child));
+  familySwitch.append(button);
 }
 byId('child-list').replaceChildren(...children.map(makePlaque));
 updateRoster();

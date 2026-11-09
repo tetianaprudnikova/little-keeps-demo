@@ -541,21 +541,42 @@ main.shell { padding-top: 26px; }
   gap: 9px 12px;
 }
 
-.family-picker {
+.family-switcher {
   display: grid;
-  min-width: min(136px, 100%);
   gap: 4px;
 }
 
-.family-picker label { color: var(--muted); font-size: .75rem; font-weight: 650; }
-.family-picker select {
-  min-height: 44px;
-  padding: 6px 9px;
+.family-switcher > span {
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 650;
+}
+
+.family-children {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
   border: 1px solid #cbd1c1;
-  border-radius: 8px;
-  background: var(--surface);
-  color: var(--ink);
-  font-size: 1rem;
+  border-radius: 9px;
+  background: var(--sage-light);
+}
+
+.family-child-button {
+  min-width: 56px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--pine);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+}
+
+.family-child-button[aria-pressed='true'] {
+  background: var(--pine);
+  color: var(--surface);
 }
 
 .empty-gallery {
