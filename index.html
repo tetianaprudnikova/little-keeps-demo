@@ -35,15 +35,15 @@
         <span>Little Keeps</span>
       </div>
       <div class="view-switch" role="group" aria-label="Ansicht wechseln">
-        <button type="button" class="view-button" id="parent-tab" aria-pressed="true" aria-controls="parent-view">Eltern</button>
-        <button type="button" class="view-button" id="staff-tab" aria-pressed="false" aria-controls="staff-view">Team</button>
+        <button type="button" class="view-button" id="staff-tab" aria-pressed="true" aria-controls="staff-view">Team</button>
+        <button type="button" class="view-button" id="parent-tab" aria-pressed="false" aria-controls="parent-view">Eltern</button>
       </div>
     </div>
   </header>
 
   <main class="shell">
     <div class="demo-note"><span aria-hidden="true"></span> Interaktiver Prototyp <b aria-hidden="true">·</b> Beispieldaten</div>
-    <section class="parent-view" id="parent-view" aria-labelledby="parent-title">
+    <section class="parent-view" id="parent-view" aria-labelledby="parent-title" hidden>
       <div class="hero">
         <div class="hero-copy">
           <div class="eyebrow">Kita Dietzgen-Strolche</div>
@@ -79,7 +79,7 @@
       </section>
     </section>
 
-    <section class="staff-view" id="staff-view" aria-labelledby="staff-title" hidden>
+    <section class="staff-view" id="staff-view" aria-labelledby="staff-title">
       <header class="staff-intro">
         <div class="eyebrow">Kita Dietzgen-Strolche · Große Strolche</div>
         <h1 id="staff-title">Kunstwerke fotografieren</h1>
