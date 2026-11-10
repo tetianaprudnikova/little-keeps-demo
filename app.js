@@ -50,6 +50,7 @@ const staffTab = byId('staff-tab');
 const albumDialog = byId('album-dialog');
 const detailDialog = byId('detail-dialog');
 const staffGalleryDialog = byId('staff-gallery-dialog');
+const sessionDialog = byId('session-dialog');
 const familySwitch = byId('family-children');
 const themeInput = byId('group-theme');
 const captureInput = byId('capture-input');
@@ -146,7 +147,20 @@ function showDetails(piece, staff) {
   detailDialog.showModal();
 }
 
-function makeCard(piece, staff, photoNumber) {
+function photoCount(count) {
+  return count + (count === 1 ? ' Foto' : ' Fotos');
+}
+
+function renderSession(photos, staff) {
+  const first = photos[0];
+  byId('session-title').textContent = first.title;
+  byId('session-meta').textContent = formatDate(first.date) + ' · ' + photoCount(photos.length);
+  byId('session-photos').replaceChildren(
+    ...photos.map((piece, index) => makeCard(piece, staff, { photoNumber: index + 1 })),
+  );
+}
+
+function makeCard(piece, staff, { photoNumber, sessionPhotos } = {}) {
   const card = node('article', 'art-card');
   const open = node('button', 'art-open');
   const artImage = node('span', 'art-image');
@@ -155,13 +169,26 @@ function makeCard(piece, staff, photoNumber) {
 
   const label = photoNumber ? 'Foto ' + photoNumber : piece.title;
   open.type = 'button';
-  open.setAttribute('aria-label', label + ' ansehen');
-  open.addEventListener('click', () => showDetails(piece, staff));
   artImage.append(image(piece));
+  if (sessionPhotos) {
+    const count = photoCount(sessionPhotos.length);
+    artImage.append(node('span', 'photo-count-badge', count));
+    open.setAttribute('aria-label', label + ': ' + count + ' ansehen');
+    open.setAttribute('aria-haspopup', 'dialog');
+    open.addEventListener('click', () => {
+      byId('session-status').textContent = '';
+      renderSession(sessionPhotos, staff);
+      sessionDialog.showModal();
+      sessionDialog.scrollTop = 0;
+    });
+  } else {
+    open.setAttribute('aria-label', label + ' ansehen');
+    open.addEventListener('click', () => showDetails(piece, staff));
+  }
   arrow.append(icon('arrow'));
   if (!photoNumber) copy.append(node('span', 'art-meta', formatDate(piece.date)));
   copy.append(arrow, node('span', 'art-title', label));
-  if (piece.note) copy.append(node('span', 'art-note', piece.note));
+  if (piece.note && !sessionPhotos) copy.append(node('span', 'art-note', piece.note));
   open.append(artImage, copy);
   card.append(open);
   return card;
@@ -190,18 +217,7 @@ function renderArtwork(gallery, pieces, emptyMessage, staff = false) {
 
   const entries = Array.from(sessions.values(), (photos) => {
     const first = photos[0];
-    if (photos.length === 1) return makeCard(first, staff);
-
-    const session = node('section', 'art-session');
-    const heading = node('header', 'art-session-head');
-    heading.append(
-      node('h3', '', first.title),
-      node('p', '', formatDate(first.date) + ' · ' + photos.length + ' Fotos'),
-    );
-    const grid = node('div', 'art-grid');
-    grid.append(...photos.map((piece, index) => makeCard(piece, staff, index + 1)));
-    session.append(heading, grid);
-    return session;
+    return makeCard(first, staff, first.sessionId ? { sessionPhotos: photos } : {});
   });
   gallery.replaceChildren(...entries);
 }
@@ -235,6 +251,16 @@ function confirmPhotoRemoval() {
   updateRoster();
   renderStaffGallery();
   if (removed.childId === familyChild.id) renderGallery();
+  if (sessionDialog.open) {
+    const remaining = childArtwork(staffGalleryChild).filter((piece) => piece.sessionId === removed.sessionId);
+    if (remaining.length) {
+      renderSession(remaining, true);
+      byId('session-title').focus();
+      byId('session-status').textContent = 'Foto entfernt.';
+      return;
+    }
+    sessionDialog.close();
+  }
   byId('staff-gallery-title').focus();
   byId('staff-gallery-status').textContent = 'Foto entfernt.';
 }
@@ -516,7 +542,7 @@ captureDialog.addEventListener('close', () => {
 albumForm.addEventListener('submit', submitAlbum);
 albumList.addEventListener('change', updateAlbumSummary);
 
-for (const dialog of [albumDialog, detailDialog, captureDialog, staffGalleryDialog]) {
+for (const dialog of [albumDialog, detailDialog, captureDialog, staffGalleryDialog, sessionDialog]) {
   dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
 }
 
