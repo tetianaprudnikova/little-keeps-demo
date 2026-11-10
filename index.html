@@ -8,8 +8,8 @@
   <meta name="description" content="Eine Galerie für die kleinen Kunstwerke aus der Kita Dietzgen-Strolche.">
   <title>Little Keeps · Kita Dietzgen-Strolche</title>
   <link rel="icon" href="./mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css?v=galerie-runden">
-  <script type="module" src="./app.js?v=galerie-runden"></script>
+  <link rel="stylesheet" href="./style.css?v=foto-kommentar">
+  <script type="module" src="./app.js?v=foto-kommentar"></script>
 </head>
 <body>
   <svg aria-hidden="true" class="sr-only" xmlns="http://www.w3.org/2000/svg">
@@ -83,7 +83,7 @@
       <header class="staff-intro">
         <div class="eyebrow">Kita Dietzgen-Strolche · Große Strolche</div>
         <h1 id="staff-title">Kunstwerke fotografieren</h1>
-        <p>Gib das Thema einmal ein. Tippe dann zum Fotografieren auf den Namen eines Kindes.</p>
+        <p>Tippe auf ein Kind, um seine Galerie zu öffnen. Über „Foto“ nimmst du ein neues Bild auf.</p>
       </header>
 
       <div class="staff-workspace">
@@ -140,6 +140,10 @@
             <time id="capture-date"></time>
           </div>
           <img id="capture-image" class="capture-image" alt="Vorschau des fotografierten Kunstwerks">
+          <div class="form-field">
+            <label for="capture-comment">Kommentar zum Foto <span>(optional)</span></label>
+            <textarea id="capture-comment" rows="2" maxlength="240" placeholder="Was hat das Kind zu seinem Kunstwerk gesagt?"></textarea>
+          </div>
         </div>
         <div class="modal-actions capture-actions">
           <button type="button" class="button button--secondary" id="retake">Neu aufnehmen</button>
