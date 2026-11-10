@@ -319,6 +319,7 @@ main.shell { padding-top: 26px; }
 }
 
 .art-image {
+  position: relative;
   width: 100%;
   aspect-ratio: 1.5;
   overflow: hidden;
@@ -826,37 +827,25 @@ main.shell { padding-top: 26px; }
 .session-help { color: var(--muted); font-size: .82rem; }
 .new-session { justify-self: start; }
 
-.art-session {
-  grid-column: 1 / -1;
-  min-width: 0;
-  padding: clamp(12px, 2vw, 20px);
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: var(--sage-light);
-}
-
-.art-session-head {
-  margin-bottom: 12px;
-  overflow-wrap: anywhere;
-}
-
-.art-session-head h3 {
-  font: 600 1.3rem/1.2 var(--display);
-}
-
-.art-session-head p {
-  margin-top: 4px;
-  color: var(--muted);
+/* The badge shares the cover's button, so both open the round. */
+.photo-count-badge {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--pine);
+  color: white;
   font-size: .8rem;
+  font-weight: 700;
 }
 
-.art-session .art-title { grid-column: 1; grid-row: 1; }
+.session-photos .art-title { grid-column: 1; grid-row: 1; }
 
 .staff-gallery-modal { width: min(720px, 100% - 28px); }
-.staff-gallery { margin-top: 16px; }
-
-.staff-gallery .art-grid,
-.staff-gallery {
+.staff-gallery,
+.session-photos {
+  margin-top: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -878,6 +867,6 @@ main.shell { padding-top: 26px; }
 .remove-review .modal-actions { margin-top: 10px; }
 
 @media (max-width: 450px) {
-  .staff-gallery .art-grid,
-  .staff-gallery { grid-template-columns: minmax(0, 1fr); }
+  .staff-gallery,
+  .session-photos { grid-template-columns: minmax(0, 1fr); }
 }
