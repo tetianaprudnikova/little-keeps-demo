@@ -8,8 +8,8 @@
   <meta name="description" content="Eine Galerie für die kleinen Kunstwerke aus der Kita Dietzgen-Strolche.">
   <title>Little Keeps · Kita Dietzgen-Strolche</title>
   <link rel="icon" href="./mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css?v=foto-kommentar">
-  <script type="module" src="./app.js?v=waldwerkstatt"></script>
+  <link rel="stylesheet" href="./style.css?v=sitzungsgalerie">
+  <script type="module" src="./app.js?v=sitzungsgalerie"></script>
 </head>
 <body>
   <svg aria-hidden="true" class="sr-only" xmlns="http://www.w3.org/2000/svg">
@@ -212,6 +212,20 @@
       </header>
       <p class="sr-only" id="staff-gallery-status" role="status"></p>
       <div class="art-grid staff-gallery" id="staff-gallery"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal staff-gallery-modal" id="session-dialog" aria-labelledby="session-title" aria-describedby="session-meta">
+    <div class="modal-inner">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow" id="session-meta"></div>
+          <h2 id="session-title" tabindex="-1"></h2>
+        </div>
+        <button type="button" class="icon-button" data-close aria-label="Runde schließen"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </header>
+      <p class="sr-only" id="session-status" role="status"></p>
+      <div class="art-grid session-photos" id="session-photos"></div>
     </div>
   </dialog>
 
