@@ -556,6 +556,9 @@ main.shell { padding-top: 26px; }
   gap: 9px 12px;
 }
 
+/* Match the 44px sibling buttons plus the switcher's padding and border. */
+.collection-actions .button { min-height: 52px; }
+
 .family-switcher {
   display: grid;
   gap: 4px;
