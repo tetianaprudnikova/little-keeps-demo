@@ -12,24 +12,24 @@ const familyChildren = children.filter(({ id }) => id === 'mia' || id === 'theo'
 const demoPhotos = ['garden', 'clay', 'forest', 'sunshine', 'butterfly'];
 const sampleArtwork = [
   {
+    id: 'forest', sessionId: 'demo-waldwerkstatt', title: 'Waldwerkstatt', date: '2026-10-29',
+    note: 'Nach dem Waldspaziergang hat Mia die Bäume gemalt. „Der kleine Baum wächst noch!“',
+    image: './art/forest.svg', alt: 'Gemalte Bäume auf blauem Papier',
+  },
+  {
+    id: 'clay', sessionId: 'demo-waldwerkstatt', title: 'Waldwerkstatt', date: '2026-10-29',
+    note: 'Mia hat ein Blatt vom Spaziergang in weichen Ton gedrückt.',
+    image: './art/clay.svg', alt: 'Blattabdruck in terrakottafarbenem Ton',
+  },
+  {
     id: 'butterfly', title: 'Der Papierschmetterling', date: '2026-10-28',
     note: 'Mia hat die Farben ausgesucht und die Teile für die Flügel ausgeschnitten.',
     image: './art/butterfly.svg', alt: 'Schmetterling mit rosa, gelben und lilafarbenen Papierflügeln',
   },
   {
-    id: 'forest', title: 'Ein Spaziergang im Wald', date: '2026-10-21',
-    note: 'Beim Spaziergang haben wir Blätter gesammelt. Danach haben wir die Bäume gemalt, an die wir uns erinnert haben.',
-    image: './art/forest.svg', alt: 'Gemalte Bäume auf blauem Papier',
-  },
-  {
     id: 'sunshine', title: 'Eine Handvoll Sonnenschein', date: '2026-10-13',
     note: 'Mit unseren Händen haben wir die Strahlen einer kleinen gelben Sonne gestempelt.',
     image: './art/sunshine.svg', alt: 'Sonne mit gelben und orangefarbenen Handabdrücken',
-  },
-  {
-    id: 'clay', title: 'Ein Blattabdruck in Ton', date: '2026-10-05',
-    note: 'Mia hat ein Blatt in weichen Ton gedrückt, um die feinen Blattadern sichtbar zu machen.',
-    image: './art/clay.svg', alt: 'Blattabdruck in terrakottafarbenem Ton',
   },
 ];
 
