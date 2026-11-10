@@ -41,13 +41,15 @@ const art = [
     image: './art/garden.svg', alt: 'Drei bunte Blumen aus Papier',
   },
 ];
-const initialArtworkCount = art.length;
+let nextPhotoId = 0;
+let activeSession = null;
 let familyChild = familyChildren[0];
 const byId = (id) => document.getElementById(id);
 const parentTab = byId('parent-tab');
 const staffTab = byId('staff-tab');
 const albumDialog = byId('album-dialog');
 const detailDialog = byId('detail-dialog');
+const staffGalleryDialog = byId('staff-gallery-dialog');
 const familySwitch = byId('family-children');
 const themeInput = byId('group-theme');
 const captureInput = byId('capture-input');
@@ -60,6 +62,8 @@ const dateFormatter = new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', ti
 
 let captureRequest = null;
 let reviewedPhoto = null;
+let staffGalleryChild = null;
+let removablePiece = null;
 let preparingAlbum = false;
 let statusTimer;
 
@@ -129,7 +133,10 @@ function notify(message) {
   }, 5500);
 }
 
-function showDetails(piece) {
+function showDetails(piece, staff) {
+  removablePiece = staff ? piece : null;
+  byId('detail-actions').hidden = !removablePiece;
+  byId('remove-review').hidden = true;
   byId('detail-title').textContent = piece.title;
   byId('detail-date').textContent = formatDate(piece.date);
   byId('detail-image').src = piece.image;
@@ -139,31 +146,97 @@ function showDetails(piece) {
   detailDialog.showModal();
 }
 
-function makeCard(piece) {
+function makeCard(piece, staff, photoNumber) {
   const card = node('article', 'art-card');
   const open = node('button', 'art-open');
   const artImage = node('span', 'art-image');
   const copy = node('span', 'art-copy');
   const arrow = node('span', 'art-arrow');
 
+  const label = photoNumber ? 'Foto ' + photoNumber : piece.title;
   open.type = 'button';
-  open.setAttribute('aria-label', piece.title + ' ansehen');
-  open.addEventListener('click', () => showDetails(piece));
+  open.setAttribute('aria-label', label + ' ansehen');
+  open.addEventListener('click', () => showDetails(piece, staff));
   artImage.append(image(piece));
   arrow.append(icon('arrow'));
-  copy.append(
-    node('span', 'art-meta', formatDate(piece.date)),
-    node('span', 'art-title', piece.title),
-    node('span', 'art-note', piece.note),
-    arrow,
-  );
+  if (!photoNumber) copy.append(node('span', 'art-meta', formatDate(piece.date)));
+  copy.append(arrow, node('span', 'art-title', label));
+  if (piece.note) copy.append(node('span', 'art-note', piece.note));
   open.append(artImage, copy);
   card.append(open);
   return card;
 }
 
+function childArtwork(child) {
+  return art.filter((piece) => piece.childId === child.id);
+}
+
 function familyArtwork() {
-  return art.filter((piece) => piece.childId === familyChild.id);
+  return childArtwork(familyChild);
+}
+
+function renderArtwork(gallery, pieces, emptyMessage, staff = false) {
+  if (!pieces.length) {
+    gallery.replaceChildren(node('p', 'empty-gallery', emptyMessage));
+    return;
+  }
+
+  const sessions = new Map();
+  for (const piece of pieces) {
+    const key = piece.sessionId ?? piece.id;
+    if (!sessions.has(key)) sessions.set(key, []);
+    sessions.get(key).push(piece);
+  }
+
+  const entries = Array.from(sessions.values(), (photos) => {
+    const first = photos[0];
+    if (photos.length === 1) return makeCard(first, staff);
+
+    const session = node('section', 'art-session');
+    const heading = node('header', 'art-session-head');
+    heading.append(
+      node('h3', '', first.title),
+      node('p', '', formatDate(first.date) + ' · ' + photos.length + ' Fotos'),
+    );
+    const grid = node('div', 'art-grid');
+    grid.append(...photos.map((piece, index) => makeCard(piece, staff, index + 1)));
+    session.append(heading, grid);
+    return session;
+  });
+  gallery.replaceChildren(...entries);
+}
+
+function renderStaffGallery() {
+  const name = staffGalleryChild.name;
+  byId('staff-gallery-title').textContent = 'Galerie von ' + name;
+  renderArtwork(
+    byId('staff-gallery'),
+    childArtwork(staffGalleryChild),
+    'Für ' + name + ' sind noch keine Fotos gespeichert.',
+    true,
+  );
+}
+
+function openStaffGallery(child) {
+  captureRequest = null;
+  staffGalleryChild = child;
+  renderStaffGallery();
+  staffGalleryDialog.showModal();
+  staffGalleryDialog.scrollTop = 0;
+}
+
+function confirmPhotoRemoval() {
+  if (!removablePiece || byId('remove-review').hidden || !staffGalleryDialog.open) return;
+  const index = art.indexOf(removablePiece);
+  if (index === -1 || removablePiece.childId !== staffGalleryChild.id) return;
+  const [removed] = art.splice(index, 1);
+  removablePiece = null;
+  detailDialog.close();
+  updateRoster();
+  renderStaffGallery();
+  if (removed.childId === familyChild.id) renderGallery();
+  byId('staff-gallery-title').focus();
+  byId('staff-gallery-status').textContent = 'Foto entfernt.';
 }
 
 function renderGallery() {
@@ -177,9 +250,7 @@ function renderGallery() {
   byId('collection-count').textContent = pieces.length === 1
     ? '1 Kunstwerk · Große Strolche'
     : pieces.length + ' Kunstwerke · Große Strolche';
-  byId('gallery').replaceChildren(...(pieces.length
-    ? pieces.map(makeCard)
-    : [node('p', 'empty-gallery', 'Hier erscheinen die Kunstwerke von ' + name + '.')]));
+  renderArtwork(byId('gallery'), pieces, 'Hier erscheinen die Kunstwerke von ' + name + '.');
   byId('make-album').disabled = !pieces.length;
 }
 
@@ -201,14 +272,22 @@ function makePlaque(child) {
   camera.append(icon('camera'));
   plaque.append(avatar, details, camera);
   plaque.addEventListener('click', () => beginCapture(child));
-  return plaque;
+
+  const gallery = node('button', 'button button--secondary child-gallery', 'Galerie');
+  gallery.type = 'button';
+  gallery.setAttribute('aria-label', 'Galerie von ' + child.name + ' öffnen');
+  gallery.addEventListener('click', () => openStaffGallery(child));
+
+  const row = node('div', 'child-row');
+  row.append(plaque, gallery);
+  return row;
 }
 
 function updateRoster() {
   const today = localDate();
   byId('activity-date').dateTime = today;
   byId('activity-date').textContent = formatDate(today);
-  for (const plaque of byId('child-list').children) {
+  for (const plaque of byId('child-list').querySelectorAll('.child-plaque')) {
     const count = art.filter((piece) => piece.childId === plaque.dataset.childId && piece.date === today).length;
     plaque.querySelector('small').textContent = count === 1 ? 'Heute 1 Foto' : 'Heute ' + count + ' Fotos';
   }
@@ -223,10 +302,14 @@ function beginCapture(child) {
     return;
   }
 
-  captureRequest = { child, theme, date: localDate() };
+  const date = localDate();
+  const session = activeSession?.theme === theme && activeSession.date === date
+    ? activeSession
+    : { id: 'session-' + nextPhotoId, theme, date };
+  captureRequest = { child, session };
   reviewedPhoto = null;
   if (byId('sample-mode').checked) {
-    const sample = demoPhotos[(art.length - initialArtworkCount) % demoPhotos.length];
+    const sample = demoPhotos[nextPhotoId % demoPhotos.length];
     showPhotoPreview(captureRequest, './art/' + sample + '.svg');
     return;
   }
@@ -282,9 +365,9 @@ function showPhotoPreview(request, source) {
   reviewedPhoto = { ...request, source };
   byId('capture-kicker').textContent = 'Fotovorschau';
   byId('capture-title').textContent = 'Foto für ' + request.child.name;
-  byId('capture-theme').textContent = request.theme;
-  byId('capture-date').dateTime = request.date;
-  byId('capture-date').textContent = formatDate(request.date);
+  byId('capture-theme').textContent = request.session.theme;
+  byId('capture-date').dateTime = request.session.date;
+  byId('capture-date').textContent = formatDate(request.session.date);
   byId('capture-image').src = source;
   byId('capture-review').hidden = false;
   byId('capture-saved').hidden = true;
@@ -294,9 +377,13 @@ function showPhotoPreview(request, source) {
 
 function savePhoto() {
   if (!reviewedPhoto || byId('capture-review').hidden) return;
-  const { child, theme, date, source } = reviewedPhoto;
+  const { child, session, source } = reviewedPhoto;
+  const { theme, date } = session;
+  activeSession = session;
+  byId('new-session').disabled = false;
   art.unshift({
-    id: 'demo-' + art.length,
+    id: 'demo-' + nextPhotoId++,
+    sessionId: session.id,
     childId: child.id,
     title: theme,
     date,
@@ -384,6 +471,28 @@ async function submitAlbum(event) {
 parentTab.addEventListener('click', () => showView(false));
 staffTab.addEventListener('click', () => showView(true));
 byId('make-album').addEventListener('click', openAlbum);
+byId('new-session').addEventListener('click', () => {
+  activeSession = null;
+  captureRequest = null;
+  byId('new-session').disabled = true;
+  themeInput.value = '';
+  themeInput.focus();
+  setError('capture-error');
+});
+byId('detail-remove').addEventListener('click', () => {
+  byId('detail-actions').hidden = true;
+  byId('remove-review').hidden = false;
+  byId('remove-cancel').focus();
+});
+byId('remove-cancel').addEventListener('click', () => {
+  byId('remove-review').hidden = true;
+  byId('detail-actions').hidden = false;
+  byId('detail-remove').focus();
+});
+byId('remove-confirm').addEventListener('click', confirmPhotoRemoval);
+staffGalleryDialog.addEventListener('close', () => {
+  byId('staff-gallery-status').textContent = '';
+});
 themeInput.addEventListener('input', () => setError('capture-error'));
 themeInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.isComposing) themeInput.blur();
@@ -402,7 +511,7 @@ captureDialog.addEventListener('close', () => {
 albumForm.addEventListener('submit', submitAlbum);
 albumList.addEventListener('change', updateAlbumSummary);
 
-for (const dialog of [albumDialog, detailDialog, captureDialog]) {
+for (const dialog of [albumDialog, detailDialog, captureDialog, staffGalleryDialog]) {
   dialog.querySelector('[data-close]').addEventListener('click', () => dialog.close());
 }
 
