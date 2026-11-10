@@ -8,8 +8,8 @@
   <meta name="description" content="Eine Galerie für die kleinen Kunstwerke aus der Kita Dietzgen-Strolche.">
   <title>Little Keeps · Kita Dietzgen-Strolche</title>
   <link rel="icon" href="./mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js"></script>
+  <link rel="stylesheet" href="./style.css?v=galerie-runden">
+  <script type="module" src="./app.js?v=galerie-runden"></script>
 </head>
 <body>
   <svg aria-hidden="true" class="sr-only" xmlns="http://www.w3.org/2000/svg">
@@ -95,8 +95,10 @@
           </div>
           <div class="form-field">
             <label for="group-theme" id="theme-label">Gruppenthema</label>
-            <input id="group-theme" type="text" maxlength="80" placeholder="z. B. Kunst mit Herbstblättern" enterkeyhint="done" required>
+            <input id="group-theme" type="text" maxlength="80" placeholder="z. B. Kunst mit Herbstblättern" enterkeyhint="done" aria-describedby="session-help" required>
           </div>
+          <p class="session-help" id="session-help">Fotos zum selben Thema bleiben in einer Runde zusammen.</p>
+          <button type="button" class="button button--secondary new-session" id="new-session" disabled>Neue Runde</button>
         </section>
 
         <section class="roster-panel" aria-labelledby="roster-title">
@@ -195,6 +197,20 @@
     </div>
   </dialog>
 
+  <dialog class="modal staff-gallery-modal" id="staff-gallery-dialog" aria-labelledby="staff-gallery-title">
+    <div class="modal-inner">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow">Teamansicht</div>
+          <h2 id="staff-gallery-title" tabindex="-1"></h2>
+        </div>
+        <button type="button" class="icon-button" data-close aria-label="Galerie schließen"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </header>
+      <p class="sr-only" id="staff-gallery-status" role="status"></p>
+      <div class="art-grid staff-gallery" id="staff-gallery"></div>
+    </div>
+  </dialog>
+
   <dialog class="modal" id="detail-dialog" aria-labelledby="detail-title">
     <div class="modal-inner">
       <header class="modal-head">
@@ -207,6 +223,16 @@
       <div class="modal-body">
         <img id="detail-image" class="detail-image" alt="">
         <p id="detail-note"></p>
+      </div>
+      <div class="modal-actions" id="detail-actions" hidden>
+        <button type="button" class="button button--secondary button--remove" id="detail-remove">Foto entfernen</button>
+      </div>
+      <div class="remove-review" id="remove-review" hidden>
+        <p>Dieses Foto aus der Galerie des Kindes entfernen?</p>
+        <div class="modal-actions">
+          <button type="button" class="button button--secondary" id="remove-cancel">Abbrechen</button>
+          <button type="button" class="button button--danger" id="remove-confirm">Foto entfernen</button>
+        </div>
       </div>
     </div>
   </dialog>
