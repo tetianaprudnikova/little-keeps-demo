@@ -264,22 +264,25 @@ function makePlaque(child) {
   const plaque = node('button', 'child-plaque');
   const avatar = node('span', 'child-avatar child-avatar--' + child.color, child.name[0]);
   const details = node('span', 'child-details');
-  const camera = node('span', 'child-camera');
+  const count = node('small');
+  count.id = 'photo-count-' + child.id;
   plaque.type = 'button';
   plaque.dataset.childId = child.id;
+  plaque.setAttribute('aria-label', 'Galerie von ' + child.name + ' öffnen');
+  plaque.setAttribute('aria-describedby', count.id);
   avatar.setAttribute('aria-hidden', 'true');
-  details.append(node('strong', '', child.name), node('small'));
-  camera.append(icon('camera'));
-  plaque.append(avatar, details, camera);
-  plaque.addEventListener('click', () => beginCapture(child));
+  details.append(node('strong', '', child.name), count);
+  plaque.append(avatar, details);
+  plaque.addEventListener('click', () => openStaffGallery(child));
 
-  const gallery = node('button', 'button button--secondary child-gallery', 'Galerie');
-  gallery.type = 'button';
-  gallery.setAttribute('aria-label', 'Galerie von ' + child.name + ' öffnen');
-  gallery.addEventListener('click', () => openStaffGallery(child));
+  const camera = node('button', 'button child-camera');
+  camera.type = 'button';
+  camera.setAttribute('aria-label', 'Foto für ' + child.name + ' aufnehmen');
+  camera.append(icon('camera'), document.createTextNode('Foto'));
+  camera.addEventListener('click', () => beginCapture(child));
 
   const row = node('div', 'child-row');
-  row.append(plaque, gallery);
+  row.append(plaque, camera);
   return row;
 }
 
@@ -293,7 +296,7 @@ function updateRoster() {
   }
 }
 
-function beginCapture(child) {
+function beginCapture(child, note = '') {
   const theme = themeInput.value.trim();
   setError('capture-error');
   if (!theme) {
@@ -306,7 +309,7 @@ function beginCapture(child) {
   const session = activeSession?.theme === theme && activeSession.date === date
     ? activeSession
     : { id: 'session-' + nextPhotoId, theme, date };
-  captureRequest = { child, session };
+  captureRequest = { child, session, note };
   reviewedPhoto = null;
   if (byId('sample-mode').checked) {
     const sample = demoPhotos[nextPhotoId % demoPhotos.length];
@@ -369,6 +372,7 @@ function showPhotoPreview(request, source) {
   byId('capture-date').dateTime = request.session.date;
   byId('capture-date').textContent = formatDate(request.session.date);
   byId('capture-image').src = source;
+  byId('capture-comment').value = request.note;
   byId('capture-review').hidden = false;
   byId('capture-saved').hidden = true;
   captureDialog.showModal();
@@ -387,7 +391,7 @@ function savePhoto() {
     childId: child.id,
     title: theme,
     date,
-    note: '',
+    note: byId('capture-comment').value.trim(),
     image: source,
     alt: 'Foto zum Thema ' + theme,
   });
@@ -402,11 +406,12 @@ function savePhoto() {
   byId('take-another').focus();
 }
 
-function repeatCapture() {
+function repeatCapture(keepComment) {
   const child = reviewedPhoto?.child;
   if (!child) return;
+  const note = keepComment ? byId('capture-comment').value : '';
   captureDialog.close();
-  beginCapture(child);
+  beginCapture(child, note);
 }
 
 function makeAlbumChoice(piece) {
@@ -498,9 +503,9 @@ themeInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !event.isComposing) themeInput.blur();
 });
 captureInput.addEventListener('change', () => selectPhoto(captureInput.files[0]));
-byId('retake').addEventListener('click', repeatCapture);
+byId('retake').addEventListener('click', () => repeatCapture(true));
 byId('save-photo').addEventListener('click', savePhoto);
-byId('take-another').addEventListener('click', repeatCapture);
+byId('take-another').addEventListener('click', () => repeatCapture(false));
 byId('next-child').addEventListener('click', () => captureDialog.close());
 captureDialog.addEventListener('close', () => {
   if (!captureDialog.open) {
